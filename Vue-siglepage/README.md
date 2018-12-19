@@ -99,7 +99,7 @@ get:function(){
 页面短短几行可以配置：
 样式为：
 
-![](https://github.com/moveondo/Vue-siglepage/blob/master/image/img.png)  
+![](https://github.com/moveondo/frontEnd-some/tree/master/Vue-siglepage/image/img.png)  
 
  
 

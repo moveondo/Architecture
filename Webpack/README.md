@@ -82,11 +82,11 @@ wepack req.js bundle.js
 
 出现以下情况，说明打包成功
 
-![](https://github.com/moveondo/Webpack/blob/master/image/1.png)
+![](https://github.com/moveondo/frontEnd-some/tree/master/Webpack/image/1.png)
 
 此时的目录结构为：
 
-![](https://github.com/moveondo/Webpack/blob/master/image/2.png)
+![](https://github.com/moveondo/frontEnd-some/tree/master/Webpack/image/2.png)
 
 其中bundle.js自动生成。
 
@@ -119,7 +119,7 @@ wepack req.js bundle.js
 ```
 此时刷新原页面进行查看为:
 
-![](https://github.com/moveondo/Webpack/blob/master/image/3.png)
+![](https://github.com/moveondo/frontEnd-some/tree/master/Webpack/image/3.png)
 
 ### npm初始化来创建package.json
 
@@ -128,7 +128,7 @@ npm init
 ```
 根据生成步骤一步一步填写：
 
-![](https://github.com/moveondo/Webpack/blob/master/image/4.png)
+![](https://github.com/moveondo/frontEnd-some/tree/master/Webpack/image/4.png)
 
 最后生成package.json
 
@@ -211,7 +211,7 @@ webpack --watch
 ```
 查看为
 
-![](https://github.com/moveondo/Webpack/blob/master/image/5.png)
+![](https://github.com/moveondo/frontEnd-some/tree/master/Webpack/image/5.png)
 
 此时如果增加样式
 ```
@@ -223,7 +223,7 @@ body{
 ```
 不需要构建，直接刷新即可看到页面：
 
-![](https://github.com/moveondo/Webpack/blob/master/image/6.png)
+![](https://github.com/moveondo/frontEnd-some/tree/master/Webpack/image/6.png)
 
 字体已经变大。
 
@@ -294,7 +294,7 @@ html 结构为：
 
 此时刷新页面已经看到了
 
-![](https://github.com/moveondo/Webpack/blob/master/image/8.png)
+![](https://github.com/moveondo/frontEnd-some/tree/master/Webpack/image/8.png)
 
 webpack的功能如果只是这样，那太小看了，如果想继续学习热启动，请观看
 
