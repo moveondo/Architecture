@@ -31,7 +31,7 @@ tomcat服务器的早期版本确实是这样实现的。多线程的方式确�
 
 几乎所有的网络连接都会经过读请求内容——》解码——》计算处理——》编码回复——》回复的过程，Reactor模式的的演化过程如下：
 
-![](https://github.com/moveondo/jupyterNotebook/blob/master/jupyterNotebook%E6%9E%B6%E6%9E%84%E7%9B%B8%E5%85%B3/image/reactor1.jpg)
+![](https://github.com/moveondo/Architecture/blob/master/jupyterNotebook%E6%9E%B6%E6%9E%84%E7%9B%B8%E5%85%B3/image/reactor1.jpg)
 
 
 这种模型由于IO在阻塞时会一直等待，因此在用户负载增加时，性能下降的非常快。
@@ -48,7 +48,7 @@ server导致阻塞的原因：
 
 改进：采用基于事件驱动的设计，当有事件触发时，才会调用处理器进行数据处理。
 
-![](https://github.com/moveondo/jupyterNotebook/blob/master/jupyterNotebook%E6%9E%B6%E6%9E%84%E7%9B%B8%E5%85%B3/image/reactor2.jpg)
+![](https://github.com/moveondo/Architecture/blob/master/jupyterNotebook%E6%9E%B6%E6%9E%84%E7%9B%B8%E5%85%B3/image/reactor2.jpg)
 
 
 Reactor：负责响应IO事件，当检测到一个新的事件，将其发送给相应的Handler去处理。
@@ -61,7 +61,7 @@ Reactor为单个线程，需要处理accept连接，同时发送请求到处理�
 
 改进：使用多线程处理业务逻辑。
 
-![](https://github.com/moveondo/jupyterNotebook/blob/master/jupyterNotebook%E6%9E%B6%E6%9E%84%E7%9B%B8%E5%85%B3/image/reactor3.jpg)
+![](https://github.com/moveondo/Architecture/blob/master/jupyterNotebook%E6%9E%B6%E6%9E%84%E7%9B%B8%E5%85%B3/image/reactor3.jpg)
 
 
 将处理器的执行放入线程池，多线程进行业务处理。但Reactor仍为单个线程。
@@ -70,7 +70,7 @@ Reactor为单个线程，需要处理accept连接，同时发送请求到处理�
 
 Using Multiple Reactors
 
-![](https://github.com/moveondo/jupyterNotebook/blob/master/jupyterNotebook%E6%9E%B6%E6%9E%84%E7%9B%B8%E5%85%B3/image/reactor4.jpg)
+![](https://github.com/moveondo/Architecture/blob/master/jupyterNotebook%E6%9E%B6%E6%9E%84%E7%9B%B8%E5%85%B3/image/reactor4.jpg)
 
 
 mainReactor负责监听连接，accept连接给subReactor处理，为什么要单独分一个Reactor来处理监听呢？因为像TCP这样需要经过3次握手才能建立连接，这个建立连接的过程也是要耗时间和资源的，单独分一个Reactor来处理，可以提高性能。
@@ -80,7 +80,7 @@ mainReactor负责监听连接，accept连接给subReactor处理，为什么要�
 
 Wikipedia上说：“The reactor design pattern is an event handling pattern for handling service requests delivered concurrently by one or more inputs. The service handler then demultiplexes the incoming requests and dispatches them synchronously to associated request handlers.”。从这个描述中，我们知道Reactor模式首先是事件驱动的，有一个或多个并发输入源，有一个Service Handler，有多个Request Handlers；这个Service Handler会同步的将输入的请求（Event）多路复用的分发给相应的Request Handler。如果用图来表达：
 
-![](https://github.com/moveondo/jupyterNotebook/blob/master/jupyterNotebook%E6%9E%B6%E6%9E%84%E7%9B%B8%E5%85%B3/image/reactor5.jpg)
+![](https://github.com/moveondo/Architecture/blob/master/jupyterNotebook%E6%9E%B6%E6%9E%84%E7%9B%B8%E5%85%B3/image/reactor5.jpg)
 
 
 从结构上，这有点类似生产者消费者模式，即有一个或多个生产者将事件放入一个Queue中，而一个或多个消费者主动的从这个Queue中Poll事件来处理；而Reactor模式则并没有Queue来做缓冲，每当一个Event输入到Service Handler之后，该Service Handler会主动的根据不同的Event类型将其分发给对应的Request Handler来处理。
@@ -89,7 +89,7 @@ Reactor模式结构
 
 在解决了什么是Reactor模式后，我们来看看Reactor模式是由什么模块构成。图是一种比较简洁形象的表现方式，因而先上一张图来表达各个模块的名称和他们之间的关系：
 
-![](https://github.com/moveondo/jupyterNotebook/blob/master/jupyterNotebook%E6%9E%B6%E6%9E%84%E7%9B%B8%E5%85%B3/image/reactor6.jpg)
+![](https://github.com/moveondo/Architecture/blob/master/jupyterNotebook%E6%9E%B6%E6%9E%84%E7%9B%B8%E5%85%B3/image/reactor6.jpg)
 
 
 >Handle：即操作系统中的句柄，是对资源在操作系统层面上的一种抽象，它可以是打开的文件、一个连接(Socket)、Timer等。由于Reactor模式一般使用在网络编程中，因而这里一般指Socket Handle，即一个网络连接（Connection，在Java NIO中的Channel）。这个Channel注册到Synchronous Event Demultiplexer中，以监听Handle中发生的事件，对ServerSocketChannnel可以是CONNECT事件，对SocketChannel可以是READ、WRITE、CLOSE事件等。

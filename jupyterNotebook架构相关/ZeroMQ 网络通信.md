@@ -17,7 +17,8 @@ ZeroMQ是一种基于消息队列的多线程网络库，其对套接字类型�
 
 ZeroMQ几乎所有的I/O操作都是异步的，主线程不会被阻塞。ZeroMQ会根据用户调用zmq_init函数时传入的接口参数，创建对应数量的I/O Thread。每个I/O Thread都有与之绑定的Poller，Poller采用经典的Reactor模式实现，Poller根据不同操作系统平台使用不同的网络I/O模型（select、poll、epoll、devpoll、kequeue等）。主线程与I/O线程通过Mail Box传递消息来进行通信。Server开始监听或者Client发起连接时，在主线程中创建zmq_connecter或zmq_listener，通过Mail Box发消息的形式将其绑定到I/O线程，I/O线程会把zmq_connecter或zmq_listener添加到Poller中用以侦听读/写事件。Server与Client在第一次通信时，会创建zmq_init来发送identity，用以进行认证。认证结束后，双方会为此次连接创建Session，以后双方就通过Session进行通信。每个Session都会关联到相应的读/写管道， 主线程收发消息只是分别从管道中读/写数据。Session并不实际跟kernel交换I/O数据，而是通过plugin到Session中的Engine来与kernel交换I/O数据。
 
-![](https://github.com/moveondo/jupyterNotebook/blob/master/jupyterNotebook%E6%9E%B6%E6%9E%84%E7%9B%B8%E5%85%B3/image/zmq1.jpg)
+
+![](https://github.com/moveondo/Architecture/blob/master/jupyterNotebook%E6%9E%B6%E6%9E%84%E7%9B%B8%E5%85%B3/image/zmq1.jpg)
 
 
 2.2所处层次
@@ -25,7 +26,7 @@ ZeroMQ几乎所有的I/O操作都是异步的，主线程不会被阻塞。ZeroM
   ZeroMQ不是单独的服务或者程序，仅仅是一套组件，其封装了网络通信、消息队列、线程调度等功能，向上层提供简洁的API，应用程序通过加载库文件，调用API函数来实现高性能网络通信。
 
 
-![](https://github.com/moveondo/jupyterNotebook/blob/master/jupyterNotebook%E6%9E%B6%E6%9E%84%E7%9B%B8%E5%85%B3/image/zmq2.jpg)
+![](https://github.com/moveondo/Architecture/blob/master/jupyterNotebook%E6%9E%B6%E6%9E%84%E7%9B%B8%E5%85%B3/image/zmq2.jpg)
 
 
 
@@ -41,7 +42,7 @@ ZeroMQ将消息通信分成4种模型，分别是一对一结对模型（Exclusi
 
 由请求端发起请求，然后等待回应端应答。一个请求必须对应一个回应，从请求端的角度来看是发-收配对，从回应端的角度是收-发对。跟一对一结对模型的区别在于请求端可以是1~N个。该模型主要用于远程调用及任务分配等。Echo服务就是这种经典模型的应用。
 
-![](https://github.com/moveondo/jupyterNotebook/blob/master/jupyterNotebook%E6%9E%B6%E6%9E%84%E7%9B%B8%E5%85%B3/image/zmq3.jpg)
+![](https://github.com/moveondo/Architecture/blob/master/jupyterNotebook%E6%9E%B6%E6%9E%84%E7%9B%B8%E5%85%B3/image/zmq3.jpg)
 
 
 2.3.3   发布订阅模型
@@ -50,14 +51,14 @@ ZeroMQ将消息通信分成4种模型，分别是一对一结对模型（Exclusi
 
 
 
-![](https://github.com/moveondo/jupyterNotebook/blob/master/jupyterNotebook%E6%9E%B6%E6%9E%84%E7%9B%B8%E5%85%B3/image/zmq4.jpg)
+![](https://github.com/moveondo/Architecture/blob/master/jupyterNotebook%E6%9E%B6%E6%9E%84%E7%9B%B8%E5%85%B3/image/zmq4.jpg)
 
 
 2.3.4   推拉模型
 
 Server端作为Push端，而Client端作为Pull端，如果有多个Client端同时连接到Server端，则Server端会在内部做一个负载均衡，采用平均分配的算法，将所有消息均衡发布到Client端上。与发布订阅模型相比，推拉模型在没有消费者的情况下，发布的消息不会被消耗掉；在消费者能力不够的情况下，能够提供多消费者并行消费解决方案。该模型主要用于多任务并行。
 
-![](https://github.com/moveondo/jupyterNotebook/blob/master/jupyterNotebook%E6%9E%B6%E6%9E%84%E7%9B%B8%E5%85%B3/image/zmq5.jpg)
+![](https://github.com/moveondo/Architecture/blob/master/jupyterNotebook%E6%9E%B6%E6%9E%84%E7%9B%B8%E5%85%B3/image/zmq5.jpg)
 
 
 
@@ -79,7 +80,7 @@ Server端作为Push端，而Client端作为Pull端，如果有多个Client端同
 
 
 
-![](https://github.com/moveondo/jupyterNotebook/blob/master/jupyterNotebook%E6%9E%B6%E6%9E%84%E7%9B%B8%E5%85%B3/image/zmq7.jpg)
+![](https://github.com/moveondo/Architecture/blob/master/jupyterNotebook%E6%9E%B6%E6%9E%84%E7%9B%B8%E5%85%B3/image/zmq7.jpg)
 
 
 5  应用场景
@@ -89,7 +90,7 @@ Server端作为Push端，而Client端作为Pull端，如果有多个Client端同
 ZeroMQ中对Client和Server的启动顺序没有要求，Gameserver之间如果需要通信的话，Gameserver的应用层不需要管理这些细节，ZeroMQ已经做了重连处理。
 
 
-![](https://github.com/moveondo/jupyterNotebook/blob/master/jupyterNotebook%E6%9E%B6%E6%9E%84%E7%9B%B8%E5%85%B3/image/zmq8.jpg)
+![](https://github.com/moveondo/Architecture/blob/master/jupyterNotebook%E6%9E%B6%E6%9E%84%E7%9B%B8%E5%85%B3/image/zmq8.jpg)
 
 
 6  总结
