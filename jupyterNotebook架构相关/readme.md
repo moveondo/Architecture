@@ -11,7 +11,7 @@ jupyter notebook基于若干开放标准，可以将其视为三个部分:
 
 上边提到的三个部分直接的关系如下
 
-![](https://github.com/moveondo/jupyterNotebook/blob/master/jupyterNotebook%E6%9E%B6%E6%9E%84%E7%9B%B8%E5%85%B3/image/1.jpg)
+![](https://github.com/moveondo/Architecture/blob/master/jupyterNotebook%E6%9E%B6%E6%9E%84%E7%9B%B8%E5%85%B3/image/1.jpg)
 
 
 于是我们可以回答what happens when这类经典问题,当我们点击运行print("hello world")时发生了什么
@@ -20,7 +20,7 @@ jupyter notebook基于若干开放标准，可以将其视为三个部分:
 
 如果你对jupyter的生态有兴趣，那么下边这张架构图，能让你看出各个项目直接的关系,如果你只关心jupyter notebook，它也给出了更为细致的信息
 
-![](https://github.com/moveondo/jupyterNotebook/blob/master/jupyterNotebook%E6%9E%B6%E6%9E%84%E7%9B%B8%E5%85%B3/image/2.jpg)
+![](https://github.com/moveondo/Architecture/blob/master/jupyterNotebook%E6%9E%B6%E6%9E%84%E7%9B%B8%E5%85%B3/image/2.jpg)
 
 
 简单直译(英语差)：
@@ -59,7 +59,7 @@ jupyter notebook基于若干开放标准，可以将其视为三个部分:
 如果你对通信过程很感兴趣，这一看下这张图（消息的传输用到了 ZeroMQ）：
 
 
-![](https://github.com/moveondo/jupyterNotebook/blob/master/jupyterNotebook%E6%9E%B6%E6%9E%84%E7%9B%B8%E5%85%B3/image/3.jpg)
+![](https://github.com/moveondo/Architecture/blob/master/jupyterNotebook%E6%9E%B6%E6%9E%84%E7%9B%B8%E5%85%B3/image/3.jpg)
 
 
 如果你对ZeroMQ有兴趣，可以看我之前的笔记消息队列中间件学习笔记
