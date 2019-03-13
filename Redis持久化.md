@@ -113,11 +113,11 @@ redis会将每一个收到的写命令都通过write函数追加到文件中(默
 
 appendonly yes              //启用aof持久化方式
 
-# appendfsync always      //每次收到写命令就立即强制写入磁盘，最慢的，但是保证完全的持久化，不推荐使用
+appendfsync always      //每次收到写命令就立即强制写入磁盘，最慢的，但是保证完全的持久化，不推荐使用
 
 appendfsync everysec     //每秒钟强制写入磁盘一次，在性能和持久化方面做了很好的折中，推荐
 
-# appendfsync no    //完全依赖os，性能最好,持久化没保证
+appendfsync no    //完全依赖os，性能最好,持久化没保证
 
 aof 的方式也同时带来了另一个问题。持久化文件会变的越来越大。例如我们调用incr test命令100次，文件中必须保存全部的100条命令，其实有99条都是多余的。因为要恢复数据库的状态其实文件中保存一条set test 100就够了。
 
@@ -230,7 +230,8 @@ public static void syncSave() throws Exception{
 ```
 运行结果：
 
-1.jpg
+
+![](https://github.com/moveondo/Architecture/blob/master/image/1.jpg)
 
 这里的save方法是同步的，没有写入完成前不执行后面的代码。
 
